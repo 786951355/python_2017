@@ -1,0 +1,53 @@
+<!doctype html>
+{% load paginate_tags %}
+{% paginate article_list 10 %}
+{% include "header.html" %}
+
+<body id="blog">
+<div class="am-g am-g-fixed blog-fixed">
+    <div class="am-u-md-8 am-u-sm-12">
+        <div class="preview-view preview-pc-view ">
+            <h2>{{ article }}</h2>
+            <hr>
+            <article>
+                {% autoescape off %}
+                <p>{{ article.content }}</p>
+                {% endautoescape %}
+            </article>
+        </div>
+
+<!--{#    自己实现的简单评论#}-->
+<!--{#        <form class="am-form am-g" method="post" action="/article/{{ article.pk }}">#}-->
+<!--{#            {% csrf_token %}#}-->
+<!--{#            <h4 class="blog-comment">评论</h4>#}-->
+<!--{#            <fieldset>#}-->
+<!--{#                <div class="am-form-group">#}-->
+<!--{#                  {{ comment_form }}#}-->
+<!--{#                </div>#}-->
+<!--{#                <p><button type="submit" class="am-btn am-btn-default">发表评论</button></p>#}-->
+<!--{#             </fieldset>#}-->
+<!--{#        </form>#}-->
+<!--{#    <div class="blog-comment" >#}-->
+<!--{#        最新评论#}-->
+<!--{#        <div>#}-->
+<!--{#            {% for comment in comments %}#}-->
+<!--{#                <hr>#}-->
+<!--{#                <span><a href="" class="blog-color">{{ comment.user_name }}</a></span> {{ comment.create_time }}<span><a href="" class="blog-color">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回复 &nbsp;</a></span>#}-->
+<!--{#                <p>{{ comment.content }}</p>#}-->
+<!--{#            {% endfor %}#}-->
+<!--{#        </div>#}-->
+<!--{#    </div>#}-->
+
+
+
+<!--{#    接入第三方插件多说#}-->
+     <div data-am-widget="duoshuo" class="am-duoshuo am-duoshuo-default" data-ds-short-name="amazeui">
+        <div class="ds-thread" ></div>
+    </div>
+
+
+    </div>
+    {% include "footer.html" %}
+</div>
+</body>
+</html>

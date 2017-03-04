@@ -1,0 +1,21 @@
+<!doctype html>
+{% load paginate_tags %}
+{% paginate article_list 10 %}
+{% include "header.html" %}
+
+<body id="blog">
+    <div class="am-g am-g-fixed blog-fixed">
+        <div class="am-u-md-8 am-u-sm-12">
+            <article class="am-g blog-entry-article">
+                {% for article in article_list %}
+                <span><a href="" class="blog-color">article &nbsp;</a></span>
+                <span>{{ article.pub_date }}</span>
+                <h3><a href="{{ article.pk }}">{{ article.title }}</a></h3>
+                {% endfor %}
+            </article>
+            {% include 'blog/pagination.html' %}
+        </div>
+       {% include "footer.html" %}
+    </div>
+</body>
+</html>

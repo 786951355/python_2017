@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load paginate_tags %}
+    {% paginate article_list 10 %}
+    {% include 'header.html' %}
+
+<body id="blog">
+<!-- content srart -->
+
+    {% if error_message == 'error' %}
+    <div class="am-g am-g-fixed blog-fixed">
+        <span style="color:red">请输入关键字</span>
+        <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+        <div class="am-u-md-8 am-u-sm-12">
+        </div>
+    {% include "footer.html" %}
+    </div>
+    {% else %}
+        <div class="am-g am-g-fixed blog-fixed">
+            <div>关于"<span style="color:red">{{ ks }}</span>"的搜索结果一共有"<span style="color:red">{{ resultCount }}</span>"条</div>
+                <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+                <div class="am-u-md-8 am-u-sm-12">
+                    <article class="am-g blog-entry-article">
+                        <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
+                            {% for article in article_list %}
+                            <span><a href="" class="blog-color">article &nbsp;</a></span>
+                            <span>{{ article.pub_date }}</span>
+                            <h3><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+                            {% endfor %}
+                        </div>
+                    </article>
+                <div id="pagenavi" class="noselect">
+        {% if article_list.has_previous %}
+            <a class="previous-page" href="?keywords={{ ks }}&page={{ article_list.previous_page_number }}">
+                <span class="icon-previous"></span>上一页
+            </a>
+        {% endif %}
+
+        {% if first_page == current_page %}
+            <span class="first-page current">1</span>
+        {% else %}
+            <a href="??keywords={{ ks }}&page=1" class="first-page">1</a>
+        {% endif %}
+
+        {% if pages_first > 2 %}
+            <span>...</span>
+        {% endif %}
+
+        {% for page in pages %}
+            {% if page == current_page %}
+                <span class="current">{{ page }}</span>
+            {% else %}
+                <a href="?keywords={{ ks }}&page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if pages_last < last_page %}
+            <span>...</span>
+        {% endif %}
+
+        {% if last_page != 1 %}
+            {% if last_page == current_page %}
+                <span class="current">{{ last_page }}</span>
+            {% else %}
+                <a href="??keywords={{ ks }}&page={{ last_page }}">{{ last_page }}</a>
+            {% endif %}
+        {% endif %}
+
+        {% if article_list.has_next %}
+            <a class="next-page" href="?keywords={{ ks }}&page={{ article_list.next_page_number }}">
+                下一页<span class="icon-next"></span>
+            </a>
+        {% endif %}
+        </div>
+                </div>
+            {% include "footer.html" %}
+            </div>
+        {% endif %}
+</body>
+</html>

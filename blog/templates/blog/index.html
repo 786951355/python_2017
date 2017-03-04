@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load paginate_tags %}
+    {% paginate article_list 10 %}
+    {% include "header.html" %}
+
+<body id="blog">
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed">
+<div>最新文章</div>
+    <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+    <div class="am-u-md-8 am-u-sm-12">
+        <article class="am-g blog-entry-article">
+            <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
+                {% for article in article_list %}
+                <span><a href="" class="blog-color">article &nbsp;</a></span>
+                <span>{{ article.pub_date }}</span>
+                <h3><a href="{{ article.pk }}">{{ article.title }}</a></h3>
+                {% endfor %}
+            </div>
+        </article>
+        {% include 'blog/pagination.html' %}
+    </div>
+    {% include "footer.html" %}
+</div>
+</body>
+</html>
