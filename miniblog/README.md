@@ -7,13 +7,19 @@
 使用方法请看readme文档
 
 ```
-
+# 首页
 ![image](https://github.com/786951355/python_2017/raw/master/index.jpg)
+# 后台
 ![image](https://github.com/786951355/python_2017/raw/master/admin.jpg)
+# 文章列表
 ![image](https://github.com/786951355/python_2017/raw/master/article_list.jpg)
+# 文章编辑页
 ![image](https://github.com/786951355/python_2017/raw/master/article_edit.jpg)
+# 搜索效果
 ![image](https://github.com/786951355/python_2017/raw/master/search.jpg)
+# 文件详情页1
 ![image](https://github.com/786951355/python_2017/raw/master/article_detail.jpg)
+# 文章详情2
 ![image](https://github.com/786951355/python_2017/raw/master/article_detail2.jpg)
 
 
