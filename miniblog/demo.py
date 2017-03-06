@@ -35,10 +35,10 @@ def create_article_and_tags():
             article.tags.add(tag)
 
 if __name__ == '__main__':
-
+    '''
+    生成测试数据
+    '''
     create_author()
     create_article_and_tags()
     print('done')
 
-
-# SELECT "blog_tag"."id", "blog_tag"."name" FROM "blog_tag" INNER JOIN "blog_article_tags" ON ("blog_tag"."id" = "blog_article_tags"."tag_id") WHERE "blog_article_tags"."article_id" = 34
