@@ -27,7 +27,6 @@ class Article(models.Model):
     score = models.IntegerField('评分')
     pub_date = models.DateTimeField('发表时间',auto_now_add=True, editable=True)
     update_date = models.DateTimeField('更新时间', auto_now=True, null=True)
-    slug = models.CharField('网址', max_length=100, db_index=True)
     tags = models.ManyToManyField('Tag')
 
     def __str__(self):
