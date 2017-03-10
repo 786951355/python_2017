@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     {% load paginate_tags %}
-    {% paginate article_list 10 %}
+    {% paginate article_list 5 %}
     {% include 'header.html' %}
 
 <body id="blog">
@@ -23,9 +23,12 @@
                     <article class="am-g blog-entry-article">
                         <div class="am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text">
                             {% for article in article_list %}
-                            <span><a href="" class="blog-color">article &nbsp;</a></span>
-                            <span>{{ article.pub_date }}</span>
                             <h3><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+                                <span class=".am-icon-fw am-icon-clock-o" style="color: #777777; font-size: 14px;"> {{ article.pub_date |date:"Y/n/d/ H:i" }} &nbsp; </span>
+                                <span class=".am-icon-fw am-icon-user" style="color: #777777;"> {{ article.author }} &nbsp;</span>
+                                <span class=".am-icon-fw am-icon-eye" style="color: #777777;"> {{ article.times }}</span>
+                                <p>{{ article.content | truncatechars:70 }}</p>
+                                <hr>
                             {% endfor %}
                         </div>
                     </article>

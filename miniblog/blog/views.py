@@ -1,13 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseRedirect
-
-from .models import Article, BlogComment, Tag
+from .models import Article, BlogComment, Tag, AccessIp
 from .form import BlogCommentForm
+import datetime
 
 
 def index(request):
-    article_list = Article.objects.all()
+    article_list = Article.objects.all().order_by('-pub_date')
     tag_list = Tag.objects.all()
     return render(request, 'blog/index.html', {'article_list': article_list, 'tag_list': tag_list})
 
@@ -16,11 +15,55 @@ def detail(request, article_id):
     comment_form = BlogCommentForm()
     article = Article.objects.get(id=article_id)
     comments = article.blogcomment_set.all().order_by('article__pub_date')
+
+    # 获取当前文章的上一页，下一页
+    post = get_object_or_404(Article, id=article_id)
+    article = Article.objects.get(id=article_id)
+    page_list = list(Article.objects.all())
+    if post == page_list[-1]:
+        before_page = page_list[-2]
+        after_page = None
+    elif post == page_list[0]:
+        before_page = None
+        after_page = page_list[1]
+    else:
+        situ = page_list.index(post)
+        before_page = page_list[situ - 1]
+        after_page = page_list[situ + 1]
+
+    # 判断当前ip是否访问过此文章，没访问过记录ip和访问时间，访问过如果时间超过1小时则阅读量加1，并更新访问时间
     tag_list = Tag.objects.all()
-    return render(request, 'blog/detail.html', {'article': article, 'comments': comments, 'comment_form': comment_form, 'tag_list': tag_list})
+    tag = article.tags.all()[0].name
+    client_ip = request.environ.get('REMOTE_ADDR')
+    d = dict()
+    ip_list = ((ip.ipaddr, ip.id) for ip in article.accessip.all())
+    for k, v in ip_list:
+        d[k] = v
 
+    if client_ip in d:
+        access_time = AccessIp.objects.get(id=d[client_ip]).access_time.replace(tzinfo=None)
+        now = datetime.datetime.utcnow()
+        delta_time = now - access_time
+        if delta_time.total_seconds() > 3600:
+            article.times += 1
+            article.accessip.add(AccessIp.objects.update(ipaddr=client_ip, access_time=datetime.datetime.now()))
+            article.save()
+            return render(request, 'blog/detail.html', {'article': article, 'tag': tag, 'access_times': article.times,
+                                                        'comments': comments, 'comment_form': comment_form, 'tag_list': tag_list,
+                                                        'post': post, 'before_page': before_page,'after_page': after_page})
 
-# 自定义评论
+        return render(request, 'blog/detail.html', {'article': article, 'tag': tag, 'access_times': article.times,
+                                                    'comments': comments, 'comment_form': comment_form, 'tag_list': tag_list,
+                                                    'post': post, 'before_page': before_page, 'after_page': after_page})
+    else:
+        article.times += 1
+        article.accessip.add(AccessIp.objects.create(ipaddr=client_ip, access_time=datetime.datetime.now()))
+        article.save()
+        return render(request, 'blog/detail.html', {'article': article, 'tag': tag, 'access_times': article.times,
+                                                    'comments': comments, 'comment_form': comment_form, 'tag_list': tag_list,
+                                                    'post': post, 'before_page': before_page, 'after_page': after_page})
+
+# 自定义评论, 用了多说此处多余
 def comment(request, article_id):
     article = Article.objects.get(id=article_id)
     comments = article.blogcomment_set.all()
@@ -50,6 +93,11 @@ def tag(request, tag_id):
 
 def tag_detail(request, tag_id, article_id):
     return HttpResponseRedirect('/'+ article_id)
+
+
+def tag_cloud(request):
+    tag_list = Tag.objects.all()
+    return render(request, 'footer.html', {'tag_list': tag_list})
 
 
 def search(request):

@@ -19,15 +19,30 @@ class Author(models.Model):
         verbose_name_plural = '作者'
 
 
+class AccessIp(models.Model):
+    ipaddr = models.CharField(max_length=20)
+    access_time = models.DateTimeField()
+
+    def __str__(self):
+        return self.ipaddr
+
+    class Meta:
+        verbose_name = 'IP地址'
+        verbose_name_plural = 'IP地址'
+
+
 class Article(models.Model):
     title = models.CharField('标题', max_length=150)
     author = models.ForeignKey(Author)
-    # content = models.TextField('正文') # 原生字段
+    # content = models.TextField('正文') 原生字段
     content = UEditorField('内容', height=300, width=1000,default='', blank=True,imagePath="uploads/images/", toolbars='besttome', filePath='uploads/files/')
     score = models.IntegerField('评分')
     pub_date = models.DateTimeField('发表时间',auto_now_add=True, editable=True)
     update_date = models.DateTimeField('更新时间', auto_now=True, null=True)
     tags = models.ManyToManyField('Tag')
+    times = models.IntegerField('阅读量', default=0)
+    accessip = models.ManyToManyField('AccessIp')
+
 
     def __str__(self):
         return self.title
@@ -65,4 +80,5 @@ class BlogComment(models.Model):
 
     def __str__(self):
         return self.content[:20]
+
 

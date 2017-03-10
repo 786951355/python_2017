@@ -1,8 +1,6 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>基于Django, 妹子UI做的简易博客</title>
   <meta name="renderer" content="webkit">
@@ -20,28 +18,35 @@
   <link rel="stylesheet" href="/static/assets/css/app.css">
 </head>
 
-<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
-    <div class="am-u-sm-8 am-u-sm-centered">
-        <h2 class="am-hide-sm-only">基于Django的简易博客</h2>
+<header class="am-topbar am-topbar-brand am-topbar-inverse am-u-sm-centered">
+    <div class="am-u-sm-12 am-u-sm-centered">
+        <h2 class="am-text-center">基于Django的简易博客</h2>
     </div>
 </header>
 <hr>
 <!-- nav start -->
 <nav class="am-g am-g-fixed blog-fixed blog-nav">
-  <div class="am-collapse am-topbar-collapse" id="blog-collapse">
-    <ul class="am-nav am-nav-pills am-topbar-nav">
-      <li><a href="{% url 'index' %}">首页</a></li>
-        {% for tag in tag_list %}
-        <li><a href="{{ tag.get_absolute_url }}">{{ tag }}</a></li>
-        {% endfor %}
-    </ul>
-    <form class="am-topbar-form am-topbar-right am-form-inline" role="search" action="{% url 'search' %}">
-        {% csrf_token %}
-      <div class="am-form-group">
-        <input type="text" class="am-form-field am-input-sm" placeholder="关键字" name="keywords">
-        <button type="submit" class="am-btn am-btn-primary">站内搜索</button>
-      </div>
-    </form>
-  </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button am-collapsed" data-am-collapse="{target: '#blog-collapse'}">
+        <span class="am-sr-only">导航切换</span>
+        <span class="am-icon-bars"></span>
+    </button>
+
+    <div class="am-topbar-collapse am-collapse" id="blog-collapse" style="height: 20px;">
+        <ul class="am-nav am-nav-pills am-topbar-nav">
+          <li class="am-active"><a href="{% url 'index' %}">首页</a></li>
+            {% for tag in tag_list %}
+            <li><a href="{{ tag.get_absolute_url }}">{{ tag }}</a></li>
+            {% endfor %}
+        </ul>
+        <form class="am-topbar-form am-topbar-right am-form-inline" role="search" action="{% url 'search' %}">
+            {% csrf_token %}
+          <div class="am-form-group">
+            <input type="text" class="am-form-field am-input-sm" placeholder="关键字" name="keywords">
+            <button type="submit" class="am-btn am-btn-primary">站内搜索</button>
+          </div>
+        </form>
+    </div>
+
 </nav>
 <hr>

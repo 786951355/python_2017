@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%t5)i$o#9mto5b-_46n&27fa=12jv&yy+p1j$o1e))2#e=*+#@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.1.222']
+ALLOWED_HOSTS = ['114.141.157.170']
 
 
 # Application definition
@@ -124,7 +124,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+STATIC_ROOT= os.path.join(os.path.dirname(__file__),'static')
+
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),os.path.join(BASE_DIR, 'blog/static')]
+STATICFILES_DIRS = (
+    ('css',os.path.join(STATIC_ROOT,'assets/css')),  
+    ('js',os.path.join(STATIC_ROOT,'assets/js')), 
+    ('i',os.path.join(STATIC_ROOT,'assets/i')), 
+    ('fonts',os.path.join(STATIC_ROOT,'assets/fonts')), 
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -1,18 +1,23 @@
 <!doctype html>
 {% load paginate_tags %}
-{% paginate article_list 10 %}
+{% paginate article_list 8 %}
 {% include "header.html" %}
 
 <body id="blog">
     <div class="am-g am-g-fixed blog-fixed">
         <div class="am-u-md-8 am-u-sm-12">
-            <article class="am-g blog-entry-article">
+        <article class="am-g blog-entry-article">
+            <div class="am-u-md-10 am-u-sm-12 blog-entry-text">
                 {% for article in article_list %}
-                <span><a href="" class="blog-color">article &nbsp;</a></span>
-                <span>{{ article.pub_date }}</span>
                 <h3><a href="{{ article.pk }}">{{ article.title }}</a></h3>
+                    <span class=".am-icon-fw am-icon-clock-o" style="color: #777777; font-size: 14px;"> {{ article.pub_date |date:"Y/n/d/ H:i" }} &nbsp; </span>
+                    <span class=".am-icon-fw am-icon-user" style="color: #777777;"> {{ article.author }} &nbsp;</span>
+                    <span class=".am-icon-fw am-icon-eye" style="color: #777777;"> {{ article.times }}</span>
+                    <p>{{ article.content | truncatechars:70 }}</p>
+                    <hr>
                 {% endfor %}
-            </article>
+            </div>
+        </article>
             {% include 'blog/pagination.html' %}
         </div>
        {% include "footer.html" %}

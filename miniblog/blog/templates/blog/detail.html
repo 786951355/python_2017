@@ -7,44 +7,75 @@
 <div class="am-g am-g-fixed blog-fixed">
     <div class="am-u-md-8 am-u-sm-12">
         <div class="preview-view preview-pc-view ">
-            <h2>{{ article }}</h2>
+            <ol class="am-breadcrumb">
+              <li><a href="/" class="am-icon-home">首页</a></li>
+              <li>{{ tag }}</li>
+              <li class="am-active">详情</li>
+            </ol>
+            <h2 align="center">{{ article }}</h2>
+            <p align="center" style="color: gray">
+                <span class=".am-icon-fw am-icon-clock-o "> {{ article.pub_date }} &nbsp;</span>
+                <span class=".am-icon-fw am-icon-user "> {{ article.author }} &nbsp;</span>
+                <span class=".am-icon-fw am-icon-eye "> {{ article.times }}</span>
+            </p>
             <hr>
             <article>
                 {% autoescape off %}
-                <p>{{ article.content }}</p>
+                    <p>{{ article.content }}</p>
                 {% endautoescape %}
             </article>
+
+            <ul class="am-pagination">
+                {% if before_page %}
+                  <li class="am-pagination-prev"><a href="/{{ before_page.id }}">« 前一篇</a></li>
+                {% endif %}
+                {% if after_page %}
+                  <li class="am-pagination-next"><a href="/{{ after_page.id }}">下一篇 »</a></li>
+                {% endif %}
+            </ul>
         </div>
 
-<!--{#    自己实现的简单评论#}-->
-<!--{#        <form class="am-form am-g" method="post" action="/article/{{ article.pk }}">#}-->
-<!--{#            {% csrf_token %}#}-->
-<!--{#            <h4 class="blog-comment">评论</h4>#}-->
-<!--{#            <fieldset>#}-->
-<!--{#                <div class="am-form-group">#}-->
-<!--{#                  {{ comment_form }}#}-->
-<!--{#                </div>#}-->
-<!--{#                <p><button type="submit" class="am-btn am-btn-default">发表评论</button></p>#}-->
-<!--{#             </fieldset>#}-->
-<!--{#        </form>#}-->
-<!--{#    <div class="blog-comment" >#}-->
-<!--{#        最新评论#}-->
-<!--{#        <div>#}-->
-<!--{#            {% for comment in comments %}#}-->
-<!--{#                <hr>#}-->
-<!--{#                <span><a href="" class="blog-color">{{ comment.user_name }}</a></span> {{ comment.create_time }}<span><a href="" class="blog-color">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回复 &nbsp;</a></span>#}-->
-<!--{#                <p>{{ comment.content }}</p>#}-->
-<!--{#            {% endfor %}#}-->
-<!--{#        </div>#}-->
-<!--{#    </div>#}-->
+
+    <!-- JiaThis Button BEGIN -->
+        <div class="jiathis_style">
+            <span class="jiathis_txt">分享到：</span>
+            <a class="jiathis_button_tools_1"></a>
+            <a class="jiathis_button_tools_2"></a>
+            <a class="jiathis_button_tools_3"></a>
+            <a class="jiathis_button_tools_4"></a>
+            <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+            <a class="jiathis_counter_style"></a>
+        </div>
+        <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+        <!-- JiaThis Button END -->
+
+{#    自己实现的简单评论#}
+{#        <form class="am-form am-g" method="post" action="/article/{{ article.pk }}">#}
+{#            {% csrf_token %}#}
+{#            <h4 class="blog-comment">评论</h4>#}
+{#            <fieldset>#}
+{#                <div class="am-form-group">#}
+{#                  {{ comment_form }}#}
+{#                </div>#}
+{#                <p><button type="submit" class="am-btn am-btn-default">发表评论</button></p>#}
+{#             </fieldset>#}
+{#        </form>#}
+{#    <div class="blog-comment" >#}
+{#        最新评论#}
+{#        <div>#}
+{#            {% for comment in comments %}#}
+{#                <hr>#}
+{#                <span><a href="" class="blog-color">{{ comment.user_name }}</a></span> {{ comment.create_time }}<span><a href="" class="blog-color">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回复 &nbsp;</a></span>#}
+{#                <p>{{ comment.content }}</p>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    </div>#}
 
 
-
-<!--{#    接入第三方插件多说#}-->
+{#    接入第三方插件多说#}
      <div data-am-widget="duoshuo" class="am-duoshuo am-duoshuo-default" data-ds-short-name="amazeui">
-        <div class="ds-thread" ></div>
+        <div class="ds-thread" data-thread-key={{ article.id }} ></div>
     </div>
-
 
     </div>
     {% include "footer.html" %}

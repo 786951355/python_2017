@@ -18,6 +18,7 @@ from django.contrib import admin
 from blog.views import *
 from DjangoUeditor.views import get_ueditor_controller
 from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -31,8 +32,4 @@ urlpatterns = [
     url(r'^search/$', search, name='search'),
     url(r'^test/$', test)
 ]
-if settings.DEBUG:
-    from django.conf.urls.static import static
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
