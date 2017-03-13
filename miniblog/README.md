@@ -99,6 +99,11 @@ server
     location /static/ {
         root /opt/miniblog/learndjango;
     }
+    
+    location /media/ {
+        root /opt/miniblog/learndjango;
+    }
+
 
         access_log  /home/wwwlogs/access.log  access;
     }
